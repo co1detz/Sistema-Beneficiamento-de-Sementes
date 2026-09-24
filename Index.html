@@ -1,1 +1,2234 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
 
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="theme-color"
+    content="#0b7a45"
+  >
+
+  <title>Beneficiamento de Sementes</title>
+
+  <!--
+    Biblioteca de QR Code.
+    Versão estável 2.3.8.
+  -->
+  <script
+    src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js">
+  </script>
+
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+
+    body {
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+      background:
+        linear-gradient(
+          135deg,
+          #eef8f2,
+          #f8faf9
+        );
+
+      color: #17221c;
+
+      min-height: 100vh;
+    }
+
+
+    .app {
+      width: 100%;
+      max-width: 720px;
+      margin: auto;
+      padding-bottom: 40px;
+    }
+
+
+    /* =====================================================
+       CABEÇALHO
+       ===================================================== */
+
+    .header {
+      background:
+        linear-gradient(
+          135deg,
+          #075c34,
+          #0b8f52
+        );
+
+      color: white;
+
+      padding:
+        24px
+        20px
+        28px;
+
+      border-radius:
+        0
+        0
+        28px
+        28px;
+
+      box-shadow:
+        0 8px 25px
+        rgba(0, 80, 40, 0.20);
+    }
+
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+
+    .logo {
+      width: 52px;
+      height: 52px;
+
+      border-radius: 16px;
+
+      background:
+        rgba(255,255,255,.16);
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 28px;
+    }
+
+
+    .header h1 {
+      font-size: 21px;
+      font-weight: 800;
+    }
+
+
+    .header p {
+      font-size: 13px;
+      opacity: .85;
+      margin-top: 4px;
+    }
+
+
+    /* =====================================================
+       CONTEÚDO
+       ===================================================== */
+
+    .content {
+      padding: 18px;
+    }
+
+
+    .card {
+      background: white;
+
+      border-radius: 20px;
+
+      padding: 18px;
+
+      margin-bottom: 16px;
+
+      box-shadow:
+        0 5px 22px
+        rgba(0,0,0,.07);
+    }
+
+
+    .card-title {
+      font-size: 17px;
+      font-weight: 800;
+
+      margin-bottom: 14px;
+
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+
+    /* =====================================================
+       BUSCA
+       ===================================================== */
+
+    .search-box {
+      display: flex;
+      gap: 8px;
+    }
+
+
+    input,
+    select,
+    textarea {
+
+      width: 100%;
+
+      border:
+        1px solid #dce5df;
+
+      border-radius: 13px;
+
+      background: #fbfdfc;
+
+      padding:
+        13px
+        14px;
+
+      font-size: 16px;
+
+      outline: none;
+
+      transition: .2s;
+    }
+
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+
+      border-color: #0b8f52;
+
+      box-shadow:
+        0 0 0 3px
+        rgba(11,143,82,.10);
+    }
+
+
+    textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+
+    .btn {
+
+      border: none;
+
+      border-radius: 13px;
+
+      padding:
+        13px
+        17px;
+
+      font-size: 15px;
+
+      font-weight: 800;
+
+      cursor: pointer;
+
+      transition: .15s;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      gap: 8px;
+    }
+
+
+    .btn:active {
+      transform: scale(.98);
+    }
+
+
+    .btn-primary {
+      background: #087c46;
+      color: white;
+    }
+
+
+    .btn-primary:hover {
+      background: #066a3c;
+    }
+
+
+    .btn-secondary {
+      background: #edf5f0;
+      color: #075c34;
+    }
+
+
+    .btn-danger {
+      background: #c62828;
+      color: white;
+    }
+
+
+    .btn-large {
+      width: 100%;
+      padding: 16px;
+      font-size: 16px;
+    }
+
+
+    .scan-button {
+      min-width: 56px;
+      font-size: 22px;
+      padding: 10px;
+    }
+
+
+    /* =====================================================
+       SCANNER
+       ===================================================== */
+
+    #scannerArea {
+      display: none;
+      margin-top: 15px;
+    }
+
+
+    #reader {
+      width: 100%;
+      overflow: hidden;
+      border-radius: 16px;
+      background: #111;
+    }
+
+
+    .scanner-help {
+      text-align: center;
+
+      font-size: 12px;
+
+      color: #68766f;
+
+      margin-top: 8px;
+    }
+
+
+    /* =====================================================
+       DADOS DO LOTE
+       ===================================================== */
+
+    .lot-header {
+
+      display: flex;
+
+      justify-content: space-between;
+
+      align-items: center;
+
+      gap: 10px;
+
+      margin-bottom: 15px;
+    }
+
+
+    .lot-title {
+      font-size: 22px;
+      font-weight: 900;
+      color: #075c34;
+    }
+
+
+    .status {
+
+      padding:
+        6px
+        10px;
+
+      border-radius: 30px;
+
+      background: #e6f7ed;
+
+      color: #087c46;
+
+      font-size: 11px;
+
+      font-weight: 800;
+
+      white-space: nowrap;
+    }
+
+
+    .info-grid {
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(2, 1fr);
+
+      gap: 10px;
+    }
+
+
+    .info {
+
+      background: #f5f8f6;
+
+      border-radius: 13px;
+
+      padding: 12px;
+    }
+
+
+    .info small {
+
+      display: block;
+
+      color: #6d7973;
+
+      font-size: 11px;
+
+      margin-bottom: 5px;
+    }
+
+
+    .info strong {
+
+      font-size: 15px;
+
+      word-break: break-word;
+    }
+
+
+    /* =====================================================
+       FORMULÁRIO
+       ===================================================== */
+
+    .form-group {
+      margin-bottom: 13px;
+    }
+
+
+    .form-label {
+
+      display: block;
+
+      font-size: 12px;
+
+      font-weight: 800;
+
+      color: #4d5c54;
+
+      margin-bottom: 6px;
+    }
+
+
+    .two-columns {
+
+      display: grid;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      gap: 10px;
+    }
+
+
+    /* =====================================================
+       PROCESSO
+       ===================================================== */
+
+    .process-card {
+      display: none;
+    }
+
+
+    .timer {
+
+      background:
+        linear-gradient(
+          135deg,
+          #063d24,
+          #0b7a45
+        );
+
+      color: white;
+
+      border-radius: 18px;
+
+      padding: 18px;
+
+      text-align: center;
+
+      margin-bottom: 16px;
+    }
+
+
+    .timer-label {
+      font-size: 11px;
+      opacity: .75;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+
+    #timer {
+
+      font-size: 34px;
+
+      font-weight: 900;
+
+      letter-spacing: 2px;
+
+      margin-top: 5px;
+    }
+
+
+    .machine-badge {
+
+      display: inline-block;
+
+      background: white;
+
+      color: #087c46;
+
+      padding:
+        7px
+        12px;
+
+      border-radius: 30px;
+
+      font-size: 12px;
+
+      font-weight: 900;
+
+      margin-top: 10px;
+    }
+
+
+    /* =====================================================
+       MENSAGENS
+       ===================================================== */
+
+    .message {
+
+      display: none;
+
+      padding: 13px;
+
+      border-radius: 13px;
+
+      margin-bottom: 14px;
+
+      font-size: 13px;
+
+      font-weight: 700;
+    }
+
+
+    .message.success {
+
+      background: #e7f8ee;
+
+      color: #096c3b;
+    }
+
+
+    .message.error {
+
+      background: #fff0f0;
+
+      color: #a51d1d;
+    }
+
+
+    .message.info {
+
+      background: #eef5ff;
+
+      color: #245c9c;
+    }
+
+
+    /* =====================================================
+       RODAPÉ
+       ===================================================== */
+
+    .footer {
+
+      text-align: center;
+
+      color: #7a857f;
+
+      font-size: 11px;
+
+      padding:
+        5px
+        20px;
+    }
+
+
+    .hidden {
+      display: none !important;
+    }
+
+
+    @media (max-width: 450px) {
+
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .two-columns {
+        grid-template-columns: 1fr;
+      }
+
+      .header h1 {
+        font-size: 19px;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+<div class="app">
+
+
+  <!-- =====================================================
+       CABEÇALHO
+       ===================================================== -->
+
+  <header class="header">
+
+    <div class="brand">
+
+      <div class="logo">
+        🌱
+      </div>
+
+      <div>
+
+        <h1>
+          Beneficiamento de Sementes
+        </h1>
+
+        <p>
+          Controle de lotes • CD 500 • CD 1000
+        </p>
+
+      </div>
+
+    </div>
+
+  </header>
+
+
+
+  <main class="content">
+
+
+    <!-- ===================================================
+         MENSAGEM
+         =================================================== -->
+
+    <div
+      id="message"
+      class="message">
+    </div>
+
+
+
+    <!-- ===================================================
+         BUSCAR LOTE
+         =================================================== -->
+
+    <section class="card">
+
+      <div class="card-title">
+        🔎 Identificar lote
+      </div>
+
+
+      <div class="search-box">
+
+        <input
+          id="searchInput"
+          type="text"
+          placeholder="Digite o lote ou QR Code"
+          autocomplete="off"
+        >
+
+
+        <button
+          id="scanButton"
+          class="btn btn-secondary scan-button"
+          type="button"
+          onclick="toggleScanner()"
+          title="Ler QR Code"
+        >
+          📷
+        </button>
+
+
+        <button
+          class="btn btn-primary"
+          type="button"
+          onclick="searchLot()"
+        >
+          Buscar
+        </button>
+
+      </div>
+
+
+      <div id="scannerArea">
+
+        <div id="reader"></div>
+
+        <div class="scanner-help">
+
+          Aponte a câmera traseira para o QR Code do lote.
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         DADOS DO LOTE
+         =================================================== -->
+
+    <section
+      id="lotCard"
+      class="card hidden"
+    >
+
+      <div class="lot-header">
+
+        <div>
+
+          <div class="lot-title" id="lotName">
+            —
+          </div>
+
+        </div>
+
+        <div class="status">
+          LOTE LOCALIZADO
+        </div>
+
+      </div>
+
+
+      <div class="info-grid">
+
+
+        <div class="info">
+
+          <small>ID</small>
+
+          <strong id="lotId">—</strong>
+
+        </div>
+
+
+        <div class="info">
+
+          <small>QR CODE</small>
+
+          <strong id="lotQr">—</strong>
+
+        </div>
+
+
+        <div class="info">
+
+          <small>VARIEDADE</small>
+
+          <strong id="lotVariedade">—</strong>
+
+        </div>
+
+
+        <div class="info">
+
+          <small>PENEIRA</small>
+
+          <strong id="lotPeneira">—</strong>
+
+        </div>
+
+
+        <div class="info">
+
+          <small>UMIDADE RECEBIMENTO</small>
+
+          <strong id="lotUmidade">—</strong>
+
+        </div>
+
+
+        <div class="info">
+
+          <small>PESO RECEBIDO</small>
+
+          <strong id="lotPeso">—</strong>
+
+        </div>
+
+
+        <div class="info">
+
+          <small>DATA RECEBIMENTO</small>
+
+          <strong id="lotData">—</strong>
+
+        </div>
+
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         INICIAR
+         =================================================== -->
+
+    <section
+      id="startCard"
+      class="card hidden"
+    >
+
+      <div class="card-title">
+        ⚙️ Iniciar beneficiamento
+      </div>
+
+
+      <div class="form-group">
+
+        <label class="form-label">
+          Operador
+        </label>
+
+        <input
+          id="operator"
+          type="text"
+          placeholder="Nome do operador"
+          autocomplete="name"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label class="form-label">
+          Máquina
+        </label>
+
+        <select id="machine">
+
+          <option value="">
+            Selecione a máquina
+          </option>
+
+          <option value="CD 500">
+            CD 500
+          </option>
+
+          <option value="CD 1000">
+            CD 1000
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="two-columns">
+
+
+        <div class="form-group">
+
+          <label class="form-label">
+            Umidade antes (%)
+          </label>
+
+          <input
+            id="moistureBefore"
+            type="number"
+            step="0.1"
+            inputmode="decimal"
+            placeholder="Ex.: 13,4"
+          >
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label class="form-label">
+            Peso antes (kg)
+          </label>
+
+          <input
+            id="weightBefore"
+            type="number"
+            step="0.01"
+            inputmode="decimal"
+            placeholder="Ex.: 2500"
+          >
+
+        </div>
+
+
+      </div>
+
+
+      <button
+        class="btn btn-primary btn-large"
+        type="button"
+        onclick="startProcess()"
+      >
+
+        ▶️ INICIAR BENEFÍCIO
+
+      </button>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         PROCESSO EM ANDAMENTO
+         =================================================== -->
+
+    <section
+      id="processCard"
+      class="card process-card"
+    >
+
+      <div class="card-title">
+        🔄 Beneficiamento em andamento
+      </div>
+
+
+      <div class="timer">
+
+        <div class="timer-label">
+          Tempo de processo
+        </div>
+
+        <div id="timer">
+          00:00:00
+        </div>
+
+        <div
+          id="machineBadge"
+          class="machine-badge">
+          —
+        </div>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label class="form-label">
+          Umidade depois (%)
+        </label>
+
+        <input
+          id="moistureAfter"
+          type="number"
+          step="0.1"
+          inputmode="decimal"
+          placeholder="Ex.: 12,8"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label class="form-label">
+          Peso depois (kg)
+        </label>
+
+        <input
+          id="weightAfter"
+          type="number"
+          step="0.01"
+          inputmode="decimal"
+          placeholder="Ex.: 2420"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label class="form-label">
+          Observação
+        </label>
+
+        <textarea
+          id="observation"
+          placeholder="Observações do beneficiamento..."
+        ></textarea>
+
+      </div>
+
+
+      <button
+        class="btn btn-primary btn-large"
+        type="button"
+        onclick="finishProcess()"
+      >
+
+        ✅ FINALIZAR BENEFÍCIO
+
+      </button>
+
+    </section>
+
+
+
+  </main>
+
+
+  <div class="footer">
+
+    Sistema de controle de beneficiamento de sementes
+
+  </div>
+
+
+</div>
+
+
+
+<script>
+
+/* =========================================================
+   CONFIGURAÇÃO
+   ========================================================= */
+
+
+/*
+ * IMPORTANTE:
+ *
+ * Depois de publicar o Code.gs,
+ * coloque aqui a URL terminada em /exec.
+ *
+ * Exemplo:
+ *
+ * const API_URL =
+ * 'https://script.google.com/macros/s/XXXXXXXX/exec';
+ */
+
+const API_URL =
+  'https://script.google.com/macros/s/AKfycbwoYjwTY3GuMhNKJaXSLfGkEKSpznc7PtUZYFxA9tE85199uAMoXnY7Wpy-MlgOScjcbw/exec';
+
+
+
+/* =========================================================
+   VARIÁVEIS
+   ========================================================= */
+
+let currentLot = null;
+
+let currentProcessId = null;
+
+let processStartTime = null;
+
+let timerInterval = null;
+
+let scanner = null;
+
+let scannerRunning = false;
+
+
+
+/* =========================================================
+   ELEMENTOS
+   ========================================================= */
+
+const $ = function(id) {
+  return document.getElementById(id);
+};
+
+
+
+/* =========================================================
+   MENSAGENS
+   ========================================================= */
+
+function showMessage(
+  text,
+  type = 'info'
+) {
+
+  const el = $('message');
+
+  el.textContent = text;
+
+  el.className =
+    'message ' + type;
+
+  el.style.display = 'block';
+
+}
+
+
+function hideMessage() {
+
+  $('message').style.display =
+    'none';
+
+}
+
+
+
+/* =========================================================
+   JSONP
+   ========================================================= */
+
+function apiRequest(params) {
+
+  return new Promise(
+    function(resolve, reject) {
+
+      if (
+        !API_URL ||
+        API_URL.indexOf('COLE_AQUI') >= 0
+      ) {
+
+        reject(
+          new Error(
+            'A URL do Apps Script ainda não foi configurada.'
+          )
+        );
+
+        return;
+      }
+
+
+      const callbackName =
+        'apiCallback_' +
+        Date.now() +
+        '_' +
+        Math.floor(
+          Math.random() * 100000
+        );
+
+
+      const script =
+        document.createElement('script');
+
+
+      const query =
+        new URLSearchParams(
+          Object.assign(
+            {},
+            params,
+            {
+              callback:
+                callbackName
+            }
+          )
+        );
+
+
+      const url =
+        API_URL +
+        '?' +
+        query.toString();
+
+
+      let finished = false;
+
+
+      window[callbackName] =
+        function(data) {
+
+          if (finished) return;
+
+          finished = true;
+
+          cleanup();
+
+          if (
+            data &&
+            data.ok === false
+          ) {
+
+            reject(
+              new Error(
+                data.error ||
+                data.message ||
+                'Erro no servidor.'
+              )
+            );
+
+            return;
+          }
+
+          resolve(data);
+        };
+
+
+      script.src = url;
+
+      script.async = true;
+
+
+      script.onerror =
+        function() {
+
+          if (finished) return;
+
+          finished = true;
+
+          cleanup();
+
+          reject(
+            new Error(
+              'Não foi possível comunicar com o Google Apps Script.'
+            )
+          );
+        };
+
+
+      document.body.appendChild(
+        script
+      );
+
+
+      const timeout =
+        setTimeout(
+          function() {
+
+            if (finished) return;
+
+            finished = true;
+
+            cleanup();
+
+            reject(
+              new Error(
+                'Tempo de resposta do servidor esgotado.'
+              )
+            );
+
+          },
+          20000
+        );
+
+
+      function cleanup() {
+
+        clearTimeout(timeout);
+
+        try {
+          delete window[callbackName];
+        } catch (_) {
+          window[callbackName] =
+            undefined;
+        }
+
+        if (script.parentNode) {
+          script.parentNode.removeChild(
+            script
+          );
+        }
+      }
+
+    }
+  );
+}
+
+
+
+/* =========================================================
+   BUSCAR LOTE
+   ========================================================= */
+
+async function searchLot() {
+
+  hideMessage();
+
+  const term =
+    $('searchInput')
+      .value
+      .trim();
+
+
+  if (!term) {
+
+    showMessage(
+      'Digite o lote ou QR Code.',
+      'error'
+    );
+
+    return;
+  }
+
+
+  showMessage(
+    'Consultando lote...',
+    'info'
+  );
+
+
+  try {
+
+    const data =
+      await apiRequest({
+
+        action: 'lookup',
+
+        term: term
+
+      });
+
+
+    if (!data.found) {
+
+      $('lotCard')
+        .classList
+        .add('hidden');
+
+      $('startCard')
+        .classList
+        .add('hidden');
+
+
+      showMessage(
+        'Lote/QR Code não encontrado na planilha.',
+        'error'
+      );
+
+      return;
+    }
+
+
+    currentLot =
+      data.lote;
+
+
+    showLot(
+      currentLot
+    );
+
+
+    showMessage(
+      'Lote localizado. Confira os dados e inicie o beneficiamento.',
+      'success'
+    );
+
+
+  } catch (error) {
+
+    showMessage(
+      error.message,
+      'error'
+    );
+  }
+}
+
+
+
+/* =========================================================
+   MOSTRAR LOTE
+   ========================================================= */
+
+function showLot(lot) {
+
+  $('lotId').textContent =
+    lot.id || '—';
+
+  $('lotQr').textContent =
+    lot.qr || '—';
+
+  $('lotName').textContent =
+    lot.lote || 'Lote';
+
+  $('lotVariedade').textContent =
+    lot.variedade || '—';
+
+  $('lotPeneira').textContent =
+    lot.peneira || '—';
+
+  $('lotUmidade').textContent =
+    lot.umidadeRecebimento
+      ? lot.umidadeRecebimento + ' %'
+      : '—';
+
+  $('lotPeso').textContent =
+    lot.pesoRecebido
+      ? formatNumber(
+          lot.pesoRecebido
+        ) + ' kg'
+      : '—';
+
+  $('lotData').textContent =
+    lot.dataRecebimento || '—';
+
+
+  $('lotCard')
+    .classList
+    .remove('hidden');
+
+
+  $('startCard')
+    .classList
+    .remove('hidden');
+
+
+  $('weightBefore').value =
+    normalizeInputNumber(
+      lot.pesoRecebido
+    );
+
+
+  $('moistureBefore').value =
+    normalizeInputNumber(
+      lot.umidadeRecebimento
+    );
+
+
+  window.scrollTo({
+    top:
+      $('lotCard')
+        .offsetTop - 10,
+
+    behavior: 'smooth'
+  });
+
+}
+
+
+
+/* =========================================================
+   INICIAR PROCESSO
+   ========================================================= */
+
+async function startProcess() {
+
+  hideMessage();
+
+
+  if (!currentLot) {
+
+    showMessage(
+      'Primeiro identifique um lote.',
+      'error'
+    );
+
+    return;
+  }
+
+
+  const operador =
+    $('operator')
+      .value
+      .trim();
+
+
+  const maquina =
+    $('machine')
+      .value;
+
+
+  const umidadeAntes =
+    $('moistureBefore')
+      .value;
+
+
+  const pesoAntes =
+    $('weightBefore')
+      .value;
+
+
+  if (!operador) {
+
+    showMessage(
+      'Informe o nome do operador.',
+      'error'
+    );
+
+    return;
+  }
+
+
+  if (!maquina) {
+
+    showMessage(
+      'Selecione a máquina.',
+      'error'
+    );
+
+    return;
+  }
+
+
+  if (!umidadeAntes) {
+
+    showMessage(
+      'Informe a umidade antes do benefício.',
+      'error'
+    );
+
+    return;
+  }
+
+
+  if (!pesoAntes || Number(pesoAntes) <= 0) {
+
+    showMessage(
+      'Informe um peso inicial válido.',
+      'error'
+    );
+
+    return;
+  }
+
+
+  const button =
+    document.querySelector(
+      '#startCard .btn-primary'
+    );
+
+
+  button.disabled = true;
+
+  button.textContent =
+    '⏳ INICIANDO...';
+
+
+  try {
+
+    const data =
+      await apiRequest({
+
+        action: 'start',
+
+        identifier:
+          currentLot.qr ||
+          currentLot.lote ||
+          currentLot.id,
+
+        operador:
+          operador,
+
+        maquina:
+          maquina,
+
+        umidadeAntes:
+          umidadeAntes,
+
+        pesoAntes:
+          pesoAntes
+
+      });
+
+
+    if (data.alreadyRunning) {
+
+      showMessage(
+        'Este lote já está em andamento.',
+        'error'
+      );
+
+      return;
+    }
+
+
+    currentProcessId =
+      data.processId;
+
+
+    processStartTime =
+      Date.now();
+
+
+    localStorage.setItem(
+      'beneficiamento_process',
+      JSON.stringify({
+
+        processId:
+          currentProcessId,
+
+        startTime:
+          processStartTime,
+
+        machine:
+          maquina,
+
+        lot:
+          currentLot
+
+      })
+    );
+
+
+    $('processCard')
+      .style
+      .display = 'block';
+
+
+    $('startCard')
+      .classList
+      .add('hidden');
+
+
+    $('machineBadge')
+      .textContent =
+      maquina;
+
+
+    startTimer();
+
+
+    showMessage(
+      'Beneficiamento iniciado com sucesso.',
+      'success'
+    );
+
+
+    window.scrollTo({
+      top:
+        $('processCard')
+          .offsetTop - 10,
+
+      behavior: 'smooth'
+    });
+
+
+  } catch (error) {
+
+    showMessage(
+      error.message,
+      'error'
+    );
+
+  } finally {
+
+    button.disabled = false;
+
+    button.textContent =
+      '▶️ INICIAR BENEFÍCIO';
+
+  }
+
+}
+
+
+
+/* =========================================================
+   FINALIZAR PROCESSO
+   ========================================================= */
+
+async function finishProcess() {
+
+  hideMessage();
+
+
+  if (!currentProcessId) {
+
+    showMessage(
+      'Nenhum processo ativo.',
+      'error'
+    );
+
+    return;
+  }
+
+
+  const umidadeDepois =
+    $('moistureAfter')
+      .value;
+
+
+  const pesoDepois =
+    $('weightAfter')
+      .value;
+
+
+  const observacao =
+    $('observation')
+      .value
+      .trim();
+
+
+  if (!umidadeDepois) {
+
+    showMessage(
+      'Informe a umidade depois do benefício.',
+      'error'
+    );
+
+    return;
+  }
+
+
+  if (
+    !pesoDepois ||
+    Number(pesoDepois) <= 0
+  ) {
+
+    showMessage(
+      'Informe o peso depois do benefício.',
+      'error'
+    );
+
+    return;
+  }
+
+
+  const button =
+    document.querySelector(
+      '#processCard .btn-primary'
+    );
+
+
+  button.disabled = true;
+
+  button.textContent =
+    '⏳ FINALIZANDO...';
+
+
+  try {
+
+    const data =
+      await apiRequest({
+
+        action: 'finish',
+
+        processId:
+          currentProcessId,
+
+        umidadeDepois:
+          umidadeDepois,
+
+        pesoDepois:
+          pesoDepois,
+
+        observacao:
+          observacao
+
+      });
+
+
+    const calculos =
+      data.calculos;
+
+
+    stopTimer();
+
+
+    localStorage.removeItem(
+      'beneficiamento_process'
+    );
+
+
+    showMessage(
+      'Beneficiamento finalizado! ' +
+      'Descarte: ' +
+      formatNumber(
+        calculos.descarte
+      ) +
+      ' kg • Rendimento: ' +
+      formatNumber(
+        calculos.rendimento
+      ) +
+      ' %',
+      'success'
+    );
+
+
+    $('processCard')
+      .style
+      .display = 'none';
+
+
+    $('startCard')
+      .classList
+      .remove('hidden');
+
+
+    $('moistureAfter').value = '';
+
+    $('weightAfter').value = '';
+
+    $('observation').value = '';
+
+
+    /*
+     * Prepara uma nova consulta.
+     */
+    currentProcessId = null;
+
+    processStartTime = null;
+
+
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+
+
+  } catch (error) {
+
+    showMessage(
+      error.message,
+      'error'
+    );
+
+  } finally {
+
+    button.disabled = false;
+
+    button.textContent =
+      '✅ FINALIZAR BENEFÍCIO';
+
+  }
+
+}
+
+
+
+/* =========================================================
+   CRONÔMETRO
+   ========================================================= */
+
+function startTimer() {
+
+  stopTimer();
+
+
+  updateTimer();
+
+
+  timerInterval =
+    setInterval(
+      updateTimer,
+      1000
+    );
+}
+
+
+function updateTimer() {
+
+  if (!processStartTime) {
+    return;
+  }
+
+
+  const elapsed =
+    Math.max(
+      0,
+      Date.now() -
+      processStartTime
+    );
+
+
+  $('timer').textContent =
+    formatDuration(
+      elapsed
+    );
+}
+
+
+function stopTimer() {
+
+  if (timerInterval) {
+
+    clearInterval(
+      timerInterval
+    );
+
+    timerInterval = null;
+  }
+}
+
+
+function formatDuration(ms) {
+
+  const totalSeconds =
+    Math.floor(ms / 1000);
+
+
+  const hours =
+    Math.floor(
+      totalSeconds / 3600
+    );
+
+
+  const minutes =
+    Math.floor(
+      (totalSeconds % 3600) / 60
+    );
+
+
+  const seconds =
+    totalSeconds % 60;
+
+
+  return [
+    String(hours).padStart(2, '0'),
+    String(minutes).padStart(2, '0'),
+    String(seconds).padStart(2, '0')
+  ].join(':');
+}
+
+
+
+/* =========================================================
+   QR CODE
+   ========================================================= */
+
+async function toggleScanner() {
+
+  if (scannerRunning) {
+
+    await stopScanner();
+
+    return;
+  }
+
+
+  $('scannerArea')
+    .style
+    .display = 'block';
+
+
+  scanner =
+    new Html5Qrcode(
+      'reader'
+    );
+
+
+  try {
+
+    await scanner.start(
+
+      {
+        facingMode: {
+          exact: 'environment'
+        }
+      },
+
+      {
+        fps: 10,
+
+        qrbox: {
+          width: 250,
+          height: 250
+        },
+
+        aspectRatio: 1.333334
+      },
+
+      async function(decodedText) {
+
+        /*
+         * Preenche automaticamente.
+         */
+        $('searchInput').value =
+          decodedText;
+
+
+        await stopScanner();
+
+
+        /*
+         * Pesquisa automaticamente.
+         */
+        await searchLot();
+
+      },
+
+      function(_) {
+        /*
+         * Erros de leitura são normais
+         * enquanto o QR não aparece.
+         */
+      }
+
+    );
+
+
+    scannerRunning = true;
+
+
+  } catch (error) {
+
+    /*
+     * Se não conseguir selecionar
+     * exatamente a traseira,
+     * tenta a câmera environment
+     * sem exact.
+     */
+
+    try {
+
+      await scanner.start(
+
+        {
+          facingMode: 'environment'
+        },
+
+        {
+          fps: 10,
+
+          qrbox: {
+            width: 250,
+            height: 250
+          }
+        },
+
+        async function(decodedText) {
+
+          $('searchInput').value =
+            decodedText;
+
+          await stopScanner();
+
+          await searchLot();
+
+        },
+
+        function(_) {}
+
+      );
+
+
+      scannerRunning = true;
+
+
+    } catch (secondError) {
+
+      showMessage(
+        'Não foi possível abrir a câmera. Verifique a permissão da câmera do navegador.',
+        'error'
+      );
+
+      $('scannerArea')
+        .style
+        .display = 'none';
+
+    }
+
+  }
+
+}
+
+
+async function stopScanner() {
+
+  if (!scanner) {
+    return;
+  }
+
+
+  try {
+
+    if (scannerRunning) {
+      await scanner.stop();
+    }
+
+  } catch (_) {}
+
+
+  try {
+    scanner.clear();
+  } catch (_) {}
+
+
+  scanner = null;
+
+  scannerRunning = false;
+
+
+  $('scannerArea')
+    .style
+    .display = 'none';
+}
+
+
+
+/* =========================================================
+   FORMATAÇÃO
+   ========================================================= */
+
+function formatNumber(value) {
+
+  const number =
+    Number(
+      String(value)
+        .replace(',', '.')
+    );
+
+
+  if (!isFinite(number)) {
+    return '0,00';
+  }
+
+
+  return number.toLocaleString(
+    'pt-BR',
+    {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }
+  );
+}
+
+
+function normalizeInputNumber(value) {
+
+  if (
+    value === null ||
+    value === undefined ||
+    value === ''
+  ) {
+    return '';
+  }
+
+
+  return String(value)
+    .replace(',', '.');
+}
+
+
+
+/* =========================================================
+   RECUPERAR PROCESSO APÓS RECARREGAR A PÁGINA
+   ========================================================= */
+
+function restoreProcess() {
+
+  try {
+
+    const saved =
+      localStorage.getItem(
+        'beneficiamento_process'
+      );
+
+
+    if (!saved) {
+      return;
+    }
+
+
+    const data =
+      JSON.parse(saved);
+
+
+    if (!data.processId) {
+      return;
+    }
+
+
+    currentProcessId =
+      data.processId;
+
+
+    processStartTime =
+      data.startTime;
+
+
+    currentLot =
+      data.lot ||
+      null;
+
+
+    if (currentLot) {
+      showLot(currentLot);
+    }
+
+
+    $('startCard')
+      .classList
+      .add('hidden');
+
+
+    $('processCard')
+      .style
+      .display = 'block';
+
+
+    $('machineBadge')
+      .textContent =
+      data.machine || '—';
+
+
+    startTimer();
+
+
+    showMessage(
+      'Processo em andamento recuperado.',
+      'info'
+    );
+
+
+  } catch (_) {
+
+    localStorage.removeItem(
+      'beneficiamento_process'
+    );
+
+  }
+
+}
+
+
+
+/* =========================================================
+   ENTER PARA PESQUISAR
+   ========================================================= */
+
+$('searchInput')
+  .addEventListener(
+    'keydown',
+    function(event) {
+
+      if (
+        event.key === 'Enter'
+      ) {
+
+        searchLot();
+      }
+
+    }
+  );
+
+
+
+/* =========================================================
+   INICIALIZAÇÃO
+   ========================================================= */
+
+restoreProcess();
+
+</script>
+
+</body>
+
+            </html>
